@@ -1,45 +1,62 @@
-# Next.js with TypeScript example
+# Planitly
 
-## How to use
+## Technologies
 
-Download the example [or clone the repo](https://github.com/mui-org/material-ui):
+- frontend - react with next.js
+- database - postgresql
+- backend - express
 
-<!-- #default-branch-switch -->
+## Pages
 
-```sh
-curl https://codeload.github.com/mui-org/material-ui/tar.gz/master | tar -xz --strip=2  material-ui-master/examples/nextjs-with-typescript
-cd nextjs-with-typescript
-```
+- [ ] dashboard
+- [ ] calendar
+- [ ] settings
+- [ ] profile
+- [ ] statistics
 
-Install it and run:
+## MVP
 
-```sh
-npm install
-npm run dev
-```
+- [x] sign in using google
+- [ ] interactive calendar
+- [ ] create events
+  - [ ] title
+  - [ ] description
+  - [ ] start date - end date
+  - [ ] location name
+  - [ ] location coordinates
+  - [ ] participants
+  - [ ] warning/information (things to be aware of) list
+  - [ ] when picking the day, display if the days are available or not for all the participants
+- [ ] modify event details
+- [ ] see a list of upcoming events
+- [ ] see the upcoming events on the calendar
+- [ ] change username
+- [ ] add friends
+- [ ] make groups
 
-or:
+## Features to be available in the future
 
-<!-- #default-branch-switch -->
-
-[![Edit on StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/mui-org/material-ui/tree/master/examples/nextjs-with-typescript)
-
-[![Edit on CodeSandbox](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/github/mui-org/material-ui/tree/master/examples/nextjs-with-typescript)
-
-## The idea behind the example
-
-The project uses [Next.js](https://github.com/vercel/next.js), which is a framework for server-rendered React apps.
-It includes `@mui/material` and its peer dependencies, including `emotion`, the default style engine in MUI v5. If you prefer, you can [use styled-components instead](https://mui.com/guides/interoperability/#styled-components).
-
-## The link component
-
-Next.js has [a custom Link component](https://nextjs.org/docs/api-reference/next/link).
-The example folder provides adapters for usage with MUI.
-More information [in the documentation](https://mui.com/guides/routing/#next-js).
-
-## What's next?
-
-<!-- #default-branch-switch -->
-
-You now have a working example project.
-You can head back to the documentation, continuing browsing it from the [templates](https://mui.com/getting-started/templates/) section.
+- [ ] rate meeting anonymously
+- [ ] keep event version history
+- [ ] public events
+- [ ] feedback system
+- [ ] counter page (days until next event)
+- [ ] add task/subtask for event
+- [ ] add more sign in methods
+  - [ ] facebook
+  - [ ] apple
+- [ ] integrations
+  - [ ] booking
+  - [ ] discord
+  - [ ] google calendar
+- [ ] notifications
+  - [ ] desktop
+  - [ ] mobile
+- [ ] statistics
+  - [ ] per person
+  - [ ] per group
+- [ ] total price of meeting and price per participant
+- [ ] add intervals of time when available for events or not
+- [ ] suggest meeting and add pools/voting system (location, date)
+- [ ] events settings
+  - [ ] allow others to invite people or not
