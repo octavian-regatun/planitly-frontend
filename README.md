@@ -9,7 +9,7 @@
 ## Pages
 
 - [ ] dashboard
-- [ ] calendar
+- [x] calendar
 - [ ] settings
 - [ ] profile
 - [ ] statistics
