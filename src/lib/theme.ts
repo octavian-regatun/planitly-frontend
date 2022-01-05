@@ -1,3 +1,4 @@
+import { orange } from "@mui/material/colors";
 import { createTheme } from "@mui/material/styles";
 
 const theme = createTheme({
@@ -6,7 +7,7 @@ const theme = createTheme({
       main: "#3f51b5",
     },
     secondary: {
-      main: "#ff9800",
+      main: orange[500],
     },
   },
 });

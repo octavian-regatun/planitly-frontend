@@ -2,6 +2,7 @@ import createEmotionServer from "@emotion/server/create-instance";
 import Document, { Head, Html, Main, NextScript } from "next/document";
 import * as React from "react";
 import createEmotionCache from "../src/lib/createEmotionCache";
+import { mediaStyles } from "../src/lib/media";
 import theme from "../src/lib/theme";
 
 export default class MyDocument extends Document {
@@ -18,6 +19,11 @@ export default class MyDocument extends Document {
           />
           {/* Inject MUI styles first to match with the prepend: true configuration. */}
           {(this.props as any).emotionStyleTags}
+          {/* styles from @artsy/fresnel package*/}
+          <style
+            type="text/css"
+            dangerouslySetInnerHTML={{ __html: mediaStyles }}
+          />
         </Head>
         <body>
           <Main />

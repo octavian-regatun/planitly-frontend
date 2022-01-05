@@ -1,13 +1,9 @@
-import MenuIcon from "@mui/icons-material/Menu";
-import {
-  AppBar,
-  Button,
-  IconButton,
-  SxProps,
-  Toolbar,
-  Typography,
-} from "@mui/material";
+import { AppBar, SxProps, Toolbar, Typography } from "@mui/material";
+import Image from "next/image";
+import Link from "next/link";
 import { NextRouter, useRouter } from "next/router";
+import { SIDEBAR_WIDTH } from "../lib/constants";
+import NavbarProfile from "./NavbarProfile";
 
 function getCurrentPage(router: NextRouter): string {
   const currentPage = router.pathname.split("/")[1];
@@ -21,25 +17,34 @@ export default function Navbar() {
 
   return (
     <AppBar position="static" color="transparent">
-      <Toolbar>
-        <IconButton
-          size="large"
-          edge="start"
-          color="inherit"
-          aria-label="menu"
-          sx={iconButtonStyles}
-        >
-          <MenuIcon />
-        </IconButton>
-        <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+      <Toolbar sx={toolbarStyles}>
+        <Link href="/calendar" passHref>
+          <div style={logoStyles}>
+            <Image width={48} height={48} src="/logo.svg" alt="logo" />
+          </div>
+        </Link>
+        <Typography sx={currentPageStyles} variant="h4" component="div">
           {currentPage}
         </Typography>
-        <Button color="inherit">Login</Button>
+        <NavbarProfile />
       </Toolbar>
     </AppBar>
   );
 }
 
-const iconButtonStyles: SxProps = {
-  mr: 2,
+const toolbarStyles: SxProps = {
+  flexGrow: 1,
+  justifyContent: "space-between",
+  alignItems: "center",
+};
+
+const currentPageStyles: SxProps = {
+  textAlign: "center",
+  fontWeight: "bold",
+  color: "primary.main",
+};
+
+const logoStyles = {
+  cursor: "pointer",
+  marginLeft: `${SIDEBAR_WIDTH}px`,
 };

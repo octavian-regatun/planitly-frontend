@@ -1,5 +1,6 @@
-import useMediaQuery from "@mui/material/useMediaQuery";
-import { Box, SxProps, useTheme } from "@mui/system";
+import { CSSProperties } from "react";
+import { NAVBAR_HEIGHT, SIDEBAR_WIDTH } from "../lib/constants";
+import { Media } from "../lib/media";
 import Navbar from "./Navbar";
 import Sidebar from "./Sidebar";
 
@@ -8,22 +9,19 @@ interface Props {
 }
 
 export default function Layout({ children }: Props): JSX.Element {
-  const theme = useTheme();
-
   return (
     <>
-      <Box sx={boxStyles}>
+      <Media at="xs">{children}</Media>
+      <Media greaterThan="xs">
         <Navbar />
-        <Sidebar/>
-      </Box>
-      {children}
+        <Sidebar />
+        <div style={childrenContainerStyle}>{children}</div>
+      </Media>
     </>
   );
 }
 
-const boxStyles: SxProps = {
-  display: {
-    xs: "none",
-    sm: "block",
-  },
+const childrenContainerStyle: CSSProperties = {
+  marginLeft: `${SIDEBAR_WIDTH}px`,
+  height: `calc(100vh - ${NAVBAR_HEIGHT}px)`,
 };

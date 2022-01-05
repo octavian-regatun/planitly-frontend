@@ -1,6 +1,8 @@
+import { Grid } from "@mui/material";
 import axios from "axios";
 import { GetServerSideProps } from "next";
-import { useEffect } from "react";
+import { CSSProperties, useEffect } from "react";
+import Calendar from "../src/components/Calendar";
 import IsAuthenticated from "../src/components/IsAuthenticated";
 import Layout from "../src/components/Layout";
 import Navbar from "../src/components/Navbar";
@@ -13,10 +15,19 @@ export default function CalendarNextPage(): JSX.Element {
   return (
     <IsAuthenticated>
       <Layout>
-        <h1>
-          Logged in as {user?.firstName} {user?.lastName}
-        </h1>
+        <Grid container style={gridContainerStyle}>
+          <Grid item xs={12} sm={8} style={calendarGridStyle}>
+            <Calendar />
+          </Grid>
+        </Grid>
       </Layout>
     </IsAuthenticated>
   );
 }
+
+const gridContainerStyle: CSSProperties = {
+  height: "100%",
+};
+const calendarGridStyle: CSSProperties = {
+  padding: "16px",
+};
