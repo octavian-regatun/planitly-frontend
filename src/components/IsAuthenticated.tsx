@@ -1,6 +1,6 @@
 import { redirectToSignIn } from "../lib/redirects";
 import { useUserStore } from "../lib/stores";
-import FullScreenLoading from "./FullScreenLoading";
+import FullscreenLoading from "./FullScreenLoading";
 
 interface Props {
   children: JSX.Element | JSX.Element[];
@@ -13,5 +13,5 @@ export default function IsAuthenticated({ children }: Props) {
     redirectToSignIn();
   }
 
-  return user ? <>{children}</> : <FullScreenLoading />;
+  return user ? <>{children}</> : <FullscreenLoading />;
 }

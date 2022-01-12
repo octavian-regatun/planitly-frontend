@@ -1,11 +1,8 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import {
-  getPayloadFromJwt,
-  isJwtExpired
-} from "../lib/jwt";
+import { getPayloadFromJwt, isJwtExpired } from "../lib/jwt";
 import { useUserStore } from "../lib/stores";
-import FullScreenLoading from "./FullScreenLoading";
+import FullscreenLoading from "./FullScreenLoading";
 
 interface Props {
   children: JSX.Element | JSX.Element[];
@@ -19,7 +16,7 @@ export default function Auth({ children }: Props): JSX.Element | null {
     void (async () => {
       const jwt = localStorage.getItem("token");
 
-      if (jwt) {
+      if (jwt && jwt !== "undefined") {
         if (!isJwtExpired(jwt)) {
           const jwtPayload = await getPayloadFromJwt(jwt);
 
@@ -32,5 +29,5 @@ export default function Auth({ children }: Props): JSX.Element | null {
     })();
   });
 
-  return loading ? <FullScreenLoading /> : <>{children}</>;
+  return loading ? <FullscreenLoading /> : <>{children}</>;
 }

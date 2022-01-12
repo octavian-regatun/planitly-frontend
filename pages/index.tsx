@@ -5,20 +5,21 @@ import Typography from "@mui/material/Typography";
 import type { NextPage } from "next";
 import { useRouter } from "next/router";
 import * as React from "react";
-import { Cookies } from "react-cookie";
 import GoogleLogin from "react-google-login";
-import FullScreenLoading from "../src/components/FullScreenLoading";
+import FullscreenLoading from "../src/components/FullScreenLoading";
 import { fetchJwt, setJwtInLocalStorage } from "../src/lib/jwt";
 import { useUserStore } from "../src/lib/stores";
 
-async function responseGoogle(data: any): Promise<void> {
+async function handleSuccess(data: any): Promise<void> {
   const tokenId = data.tokenId as string;
 
   const jwt = (await fetchJwt(tokenId)) as string;
 
-  const cookies = new Cookies();
-
   await setJwtInLocalStorage(jwt);
+}
+
+function handleFailure(error: any): void {
+  console.log(error);
 }
 
 const Home: NextPage = () => {
@@ -46,14 +47,14 @@ const Home: NextPage = () => {
         <GoogleLogin
           clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID ?? ""}
           buttonText="Sign in with Google"
-          onSuccess={responseGoogle}
-          onFailure={responseGoogle}
+          onSuccess={handleSuccess}
+          onFailure={handleFailure}
           cookiePolicy="single_host_origin"
         />
       </Paper>
     </Container>
   ) : (
-    <FullScreenLoading />
+    <FullscreenLoading />
   );
 };
 
