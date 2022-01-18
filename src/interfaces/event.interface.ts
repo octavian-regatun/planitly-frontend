@@ -7,6 +7,6 @@ export default interface Event {
   fullDay: boolean;
   authorId: string;
   participantIds?: string[];
-  locationId: number;
+  locationId?: number;
   color?: string;
 }

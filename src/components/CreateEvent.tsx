@@ -10,142 +10,188 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { useFormik } from "formik";
+import { FormikHelpers, useFormik } from "formik";
+import { useSnackbar } from "notistack";
 import { CSSProperties } from "react";
+import invariant from "tiny-invariant";
 import * as yup from "yup";
+import { Location } from "../interfaces/location.interface";
 import { User } from "../interfaces/user.interface";
-import { createEvent } from "../lib/event";
-import { createLocation } from "../lib/location";
-import { redirectToError } from "../lib/redirects";
+import EventsApi from "../lib/eventsApi";
+import LocationsApi from "../lib/locationsApi";
 import { useUserStore } from "../lib/stores";
-
-function renderStartDatePicker(formik: any) {
-  return formik.values.isFullDay ? (
-    <DatePicker
-      label="Start Date *"
-      value={formik.values.startDate}
-      onChange={(value) => {
-        formik.setFieldValue("startDate", value?.$d);
-      }}
-      renderInput={(params) => (
-        <TextField
-          {...params}
-          name="startDate"
-          error={formik.errors.startDate && formik.touched.startDate}
-          helperText={formik.errors.startDate}
-        />
-      )}
-    />
-  ) : (
-    <DateTimePicker
-      label="Start Date *"
-      value={formik.values.startDate}
-      onChange={(value) => {
-        formik.setFieldValue("startDate", value?.$d);
-      }}
-      renderInput={(params) => (
-        <TextField
-          {...params}
-          name="startDate"
-          error={formik.errors.startDate && formik.touched.startDate}
-          helperText={formik.errors.startDate}
-        />
-      )}
-    />
-  );
-}
-
-function renderEndDatePicker(formik: any) {
-  return formik.values.isFullDay ? (
-    <DatePicker
-      label="End Date *"
-      value={formik.values.endDate}
-      onChange={(value) => {
-        formik.setFieldValue("endDate", value?.$d);
-      }}
-      renderInput={(params) => (
-        <TextField
-          {...params}
-          name="endDate"
-          error={formik.errors.endDate && formik.touched.endDate}
-          helperText={formik.errors.endDate}
-        />
-      )}
-    />
-  ) : (
-    <DateTimePicker
-      label="End Date *"
-      value={formik.values.endDate}
-      onChange={(value) => {
-        formik.setFieldValue("endDate", value?.$d);
-      }}
-      renderInput={(params) => (
-        <TextField
-          {...params}
-          name="endDate"
-          error={formik.errors.endDate && formik.touched.endDate}
-          helperText={formik.errors.endDate}
-        />
-      )}
-    />
-  );
-}
 
 interface FormValues {
   title: string;
   description: string;
-  startDate: Date;
-  endDate: Date;
+  startDate: Date | null;
+  endDate: Date | null;
   fullDay: boolean;
   locationName: string;
 }
 
 const validationSchema = yup.object({
   title: yup.string().required("Title is required"),
-  startDate: yup.date().required("Start date is required"),
-  endDate: yup.date().required("End date is required"),
-  locationName: yup.string().required("Location is required"),
+  startDate: yup
+    .date()
+    .typeError("Invalid date format")
+    .required("Start date is required"),
+  endDate: yup
+    .date()
+    .typeError("Invalid date format")
+    .required("End date is required"),
 });
 
-async function handleSubmit(values: FormValues): Promise<void> {
-  const user = useUserStore.getState().user as User;
-  const { title, description, startDate, endDate, fullDay, locationName } =
-    values;
+class DatePickersTouched {
+  startDate: boolean;
+  endDate: boolean;
 
-  const location = await createLocation({
-    name: values.locationName,
-    lat: 0,
-    lon: 0,
-    authorId: user.id,
-  });
+  constructor(startDate: boolean, endDate: boolean) {
+    this.startDate = startDate;
+    this.endDate = endDate;
+  }
 
-  if (!location) redirectToError("Location could not be created");
+  reset() {
+    this.startDate = false;
+    this.endDate = false;
+  }
 
-  const event = await createEvent({
-    title,
-    description,
-    startDate,
-    endDate,
-    fullDay,
-    locationId: location?.id as number,
-    authorId: user.id,
-  });
+  set(startDate: boolean, endDate: boolean) {
+    this.startDate = startDate;
+    this.endDate = endDate;
+  }
+}
 
-  console.log(event);
+const datePickersTouched = new DatePickersTouched(false, false);
+
+function renderStartDatePicker(formik: ReturnType<typeof useFormik>) {
+  return formik.values.fullDay ? (
+    <DatePicker
+      label="Start Date *"
+      value={formik.values.startDate}
+      onChange={(value) => {
+        formik.setFieldValue("startDate", value?.$d);
+      }}
+      renderInput={(params) => (
+        <TextField
+          {...params}
+          name="startDate"
+          error={Boolean(
+            formik.errors.startDate && datePickersTouched.startDate
+          )}
+          helperText={formik.errors.startDate}
+        />
+      )}
+    />
+  ) : (
+    <DateTimePicker
+      label="Start Date *"
+      value={formik.values.startDate}
+      onChange={(value) => {
+        formik.setFieldValue("startDate", value?.$d);
+      }}
+      renderInput={(params) => (
+        <TextField
+          {...params}
+          name="startDate"
+          error={Boolean(
+            formik.errors.startDate && datePickersTouched.startDate
+          )}
+          helperText={formik.errors.startDate}
+        />
+      )}
+    />
+  );
+}
+
+function renderEndDatePicker(formik: ReturnType<typeof useFormik>) {
+  return formik.values.fullDay ? (
+    <DatePicker
+      label="End Date *"
+      value={formik.values.endDate}
+      onChange={(value) => {
+        formik.setFieldValue("endDate", value?.$d);
+      }}
+      renderInput={(params) => (
+        <TextField
+          {...params}
+          name="endDate"
+          error={Boolean(formik.errors.endDate && datePickersTouched.endDate)}
+          helperText={formik.errors.endDate}
+        />
+      )}
+    />
+  ) : (
+    <DateTimePicker
+      label="End Date *"
+      value={formik.values.endDate}
+      onChange={(value) => {
+        formik.setFieldValue("endDate", value?.$d);
+      }}
+      renderInput={(params) => (
+        <TextField
+          {...params}
+          name="endDate"
+          error={Boolean(formik.errors.endDate && datePickersTouched.endDate)}
+          helperText={formik.errors.endDate}
+        />
+      )}
+    />
+  );
 }
 
 export default function CreateEvent() {
+  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+
+  async function handleSubmit(
+    values: FormValues,
+    formik: FormikHelpers<FormValues>
+  ): Promise<void> {
+    const user = useUserStore.getState().user as User;
+    const { title, description, startDate, endDate, fullDay, locationName } =
+      values;
+
+    invariant(startDate, "startDate is null");
+    invariant(endDate, "endDate is null");
+
+    let location: Location | undefined;
+
+    if (locationName) {
+      location = await LocationsApi.create({
+        name: locationName,
+        authorId: user.id,
+      });
+    }
+
+    const eventResponse = await EventsApi.create({
+      title,
+      description: description || undefined,
+      startDate,
+      endDate,
+      fullDay,
+      locationId: location?.id,
+      authorId: user.id,
+    });
+
+    if (eventResponse?.status === 201) {
+      enqueueSnackbar(eventResponse.data.message, { variant: "success" });
+    } else {
+      enqueueSnackbar("unknown error", { variant: "error" });
+    }
+  }
+
   const formik = useFormik<FormValues>({
     initialValues: {
       title: "",
       description: "",
-      startDate: new Date(),
-      endDate: new Date(),
+      startDate: null,
+      endDate: null,
       fullDay: false,
       locationName: "",
     },
     validationSchema: validationSchema,
     onSubmit: handleSubmit,
+    onReset: () => datePickersTouched.reset(),
   });
 
   return (
@@ -180,17 +226,10 @@ export default function CreateEvent() {
       </div>
       <div style={textFieldWithIconStyle}>
         <DateRangeIcon />
-        {renderStartDatePicker(formik)}
-        {renderEndDatePicker(formik)}
+        {renderStartDatePicker(formik as any)}
+        {renderEndDatePicker(formik as any)}
       </div>
-      <div
-        style={{
-          display: "flex",
-          justifyItems: "center",
-          alignItems: "center",
-          marginLeft: "3.5rem",
-        }}
-      >
+      <div style={checkboxContainerStyle}>
         <FormControlLabel
           control={
             <Checkbox
@@ -206,19 +245,20 @@ export default function CreateEvent() {
         <LocationIcon />
         <TextField
           name="locationName"
-          label="Location *"
+          label="Location"
           variant="outlined"
           fullWidth
           value={formik.values.locationName}
           onChange={formik.handleChange}
-          error={
-            formik.touched.locationName && Boolean(formik.errors.locationName)
-          }
-          helperText={formik.touched.locationName && formik.errors.locationName}
         />
       </div>
       <div style={buttonContainerStyle}>
-        <Button type="submit" variant="contained" color="primary">
+        <Button
+          type="submit"
+          variant="contained"
+          color="primary"
+          onClick={() => datePickersTouched.set(true, true)}
+        >
           Add Event
         </Button>
       </div>
@@ -240,6 +280,13 @@ const textFieldWithIconStyle: CSSProperties = {
   display: "flex",
   alignItems: "center",
   gap: "1rem",
+};
+
+const checkboxContainerStyle: CSSProperties = {
+  display: "flex",
+  justifyItems: "center",
+  alignItems: "center",
+  marginLeft: "3.5rem",
 };
 
 const buttonContainerStyle: CSSProperties = {

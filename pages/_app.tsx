@@ -10,6 +10,7 @@ import { MediaContextProvider } from "../src/lib/media";
 import theme from "../src/lib/theme";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import AdapterDayjs from "@mui/lab/AdapterDayjs";
+import { SnackbarProvider } from "notistack";
 
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();
@@ -32,7 +33,9 @@ export default function MyApp(props: MyAppProps) {
         <MediaContextProvider>
           <Auth>
             <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <Component {...pageProps} />
+              <SnackbarProvider maxSnack={3}>
+                <Component {...pageProps} />
+              </SnackbarProvider>
             </LocalizationProvider>
           </Auth>
         </MediaContextProvider>

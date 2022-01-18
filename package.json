@@ -24,10 +24,12 @@
     "formik": "^2.2.9",
     "jwt-decode": "^3.1.2",
     "next": "latest",
+    "notistack": "^2.0.3",
     "patch-package": "^6.4.7",
     "react": "latest",
     "react-dom": "latest",
     "react-google-login": "^5.2.2",
+    "tiny-invariant": "^1.2.0",
     "yup": "^0.32.11",
     "zustand": "^3.6.8"
   },
