@@ -1,11 +1,11 @@
-import { Box, CircularProgress, SxProps } from "@mui/material";
+import { Box, CircularProgress, SxProps } from "@mui/material"
 
 export default function FullscreenLoading() {
   return (
     <Box sx={boxStyles}>
       <CircularProgress />
     </Box>
-  );
+  )
 }
 
 const boxStyles: SxProps = {
@@ -14,4 +14,4 @@ const boxStyles: SxProps = {
   display: "flex",
   justifyContent: "center",
   alignItems: "center",
-};
+}

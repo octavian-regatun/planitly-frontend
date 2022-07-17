@@ -1,0 +1,18 @@
+.Navbar {
+  &-toolbar {
+    flex-grow: 1;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  &-currentPage {
+    text-align: center;
+    font-weight: bold;
+    color: $blue;
+  }
+
+  &-logo {
+    cursor: pointer;
+    margin-left: $sidebar-width;
+  }
+}

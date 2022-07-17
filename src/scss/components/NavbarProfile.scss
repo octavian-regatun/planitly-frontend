@@ -1,0 +1,11 @@
+.NavbarProfile {
+  &-button {
+    display: flex;
+    text-transform: none;
+    color: black;
+  }
+  &-avatar {
+    margin-right: 16px;
+    background-color: $orange;
+  }
+}

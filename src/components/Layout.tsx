@@ -1,27 +1,19 @@
-import { CSSProperties } from "react";
-import { NAVBAR_HEIGHT, SIDEBAR_WIDTH } from "../lib/constants";
-import { Media } from "../lib/media";
-import Navbar from "./Navbar";
-import Sidebar from "./Sidebar";
+import Navbar from "./Navbar"
+import Sidebar from "./Sidebar"
 
 interface Props {
-  children: JSX.Element | JSX.Element[];
+  children: JSX.Element | JSX.Element[]
 }
 
 export default function Layout({ children }: Props): JSX.Element {
   return (
     <>
-      <Media at="xs">{children}</Media>
-      <Media greaterThan="xs">
+      <div className="Layout-mobile">{children}</div>
+      <div className="Layout-desktop">
         <Navbar />
         <Sidebar />
-        <div style={childrenContainerStyle}>{children}</div>
-      </Media>
+        <div className="Layout">{children}</div>
+      </div>
     </>
-  );
+  )
 }
-
-const childrenContainerStyle: CSSProperties = {
-  marginLeft: `${SIDEBAR_WIDTH}px`,
-  height: `calc(100vh - ${NAVBAR_HEIGHT}px)`,
-};

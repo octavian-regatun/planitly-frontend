@@ -1,0 +1,33 @@
+.CreateEvent {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 1rem;
+  gap: 1rem;
+  max-width: 400px;
+
+  &-textFieldWithIcon {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  &-checkboxContainer {
+    display: flex;
+    justify-items: center;
+    align-items: center;
+    margin-left: 3.5rem;
+  }
+
+  &-buttonContainer {
+    display: flex;
+    justify-items: center;
+    align-items: center;
+  }
+
+  &-errorMargin {
+    margin-bottom: 23px;
+  }
+}

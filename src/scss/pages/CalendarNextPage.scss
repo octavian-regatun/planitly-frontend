@@ -1,0 +1,10 @@
+.CalendarNextPage {
+  &-gridContainer {
+    height: 100%;
+  }
+
+  &-calendarGrid {
+    padding: 8px;
+    flex-direction: column;
+  }
+}

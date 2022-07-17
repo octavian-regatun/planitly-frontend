@@ -1,9 +1,9 @@
-import { Button, Container, Paper, SxProps, Typography } from "@mui/material";
-import Link from "next/link";
-import { useRouter } from "next/router";
+import { Button, Container, Paper, SxProps, Typography } from "@mui/material"
+import Link from "next/link"
+import { useRouter } from "next/router"
 
 export default function ErrorNextPage(): JSX.Element {
-  const router = useRouter();
+  const router = useRouter()
 
   return (
     <Container sx={containerStyles} maxWidth="sm">
@@ -24,7 +24,7 @@ export default function ErrorNextPage(): JSX.Element {
         </div>
       </Paper>
     </Container>
-  );
+  )
 }
 
 const containerStyles: SxProps = {
@@ -33,23 +33,23 @@ const containerStyles: SxProps = {
   justifyContent: "center",
   alignItems: "center",
   flexDirection: "column",
-};
+}
 
 const paperStyles: SxProps = {
   backgroundColor: "primary.main",
   p: 4,
-};
+}
 
 const titleStyles: SxProps = {
   color: "primary.contrastText",
   textAlign: "center",
-};
+}
 
 const infoStyles: SxProps = {
   color: "error.main",
-};
+}
 
 const buttonContainer = {
   display: "flex",
   justifyContent: "center",
-};
+}

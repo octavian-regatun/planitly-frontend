@@ -1,0 +1,16 @@
+.Layout {
+  margin-left: $sidebar-width;
+  height: calc(100vh - $navbar-height);
+
+  &-mobile {
+    @include media-breakpoint-up(sm) {
+      display: none;
+    }
+  }
+
+  &-desktop {
+    @include media-breakpoint-down(sm) {
+      display: none;
+    }
+  }
+}

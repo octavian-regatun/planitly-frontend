@@ -1,6 +1,6 @@
-import { AuthProvider } from "../enums/authProvider.enum";
-import { Gender } from "../enums/gender.enum";
-import { Role } from "../enums/role.enum";
+import { AuthProvider } from "../enums/authProvider.enum"
+import { Gender } from "../enums/gender.enum"
+import { Role } from "../enums/role.enum"
 
 export interface User {
   id: string;

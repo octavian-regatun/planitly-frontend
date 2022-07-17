@@ -1,33 +1,33 @@
-import DateRangeIcon from "@mui/icons-material/DateRange";
-import LocationIcon from "@mui/icons-material/LocationOn";
-import TitleIcon from "@mui/icons-material/Title";
-import DescriptionIcon from "@mui/icons-material/ViewHeadline";
-import { DatePicker, DateTimePicker } from "@mui/lab";
+import DateRangeIcon from "@mui/icons-material/DateRange"
+import LocationIcon from "@mui/icons-material/LocationOn"
+import TitleIcon from "@mui/icons-material/Title"
+import DescriptionIcon from "@mui/icons-material/ViewHeadline"
+import { DatePicker, DateTimePicker } from "@mui/lab"
 import {
   Button,
   Checkbox,
   FormControlLabel,
   TextField,
   Typography,
-} from "@mui/material";
-import { FormikHelpers, useFormik } from "formik";
-import { useSnackbar } from "notistack";
-import { CSSProperties } from "react";
-import invariant from "tiny-invariant";
-import * as yup from "yup";
-import { Location } from "../interfaces/location.interface";
-import { User } from "../interfaces/user.interface";
-import EventsApi from "../lib/eventsApi";
-import LocationsApi from "../lib/locationsApi";
-import { useUserStore } from "../lib/stores";
+} from "@mui/material"
+import { FormikHelpers, useFormik } from "formik"
+import { useSnackbar } from "notistack"
+import { CSSProperties } from "react"
+import invariant from "tiny-invariant"
+import * as yup from "yup"
+import { Location } from "../interfaces/location.interface"
+import { User } from "../interfaces/user.interface"
+import EventsApi from "../lib/eventsApi"
+import LocationsApi from "../lib/locationsApi"
+import { useUserStore } from "../lib/stores"
 
 interface FormValues {
-  title: string;
-  description: string;
-  startDate: Date | null;
-  endDate: Date | null;
-  fullDay: boolean;
-  locationName: string;
+  title: string
+  description: string
+  startDate: Date | null
+  endDate: Date | null
+  fullDay: boolean
+  locationName: string
 }
 
 const validationSchema = yup.object({
@@ -40,29 +40,29 @@ const validationSchema = yup.object({
     .date()
     .typeError("Invalid date format")
     .required("End date is required"),
-});
+})
 
 class DatePickersTouched {
-  startDate: boolean;
-  endDate: boolean;
+  startDate: boolean
+  endDate: boolean
 
   constructor(startDate: boolean, endDate: boolean) {
-    this.startDate = startDate;
-    this.endDate = endDate;
+    this.startDate = startDate
+    this.endDate = endDate
   }
 
   reset() {
-    this.startDate = false;
-    this.endDate = false;
+    this.startDate = false
+    this.endDate = false
   }
 
   set(startDate: boolean, endDate: boolean) {
-    this.startDate = startDate;
-    this.endDate = endDate;
+    this.startDate = startDate
+    this.endDate = endDate
   }
 }
 
-const datePickersTouched = new DatePickersTouched(false, false);
+const datePickersTouched = new DatePickersTouched(false, false)
 
 function renderStartDatePicker(formik: ReturnType<typeof useFormik>) {
   return formik.values.fullDay ? (
@@ -70,7 +70,7 @@ function renderStartDatePicker(formik: ReturnType<typeof useFormik>) {
       label="Start Date *"
       value={formik.values.startDate}
       onChange={(value) => {
-        formik.setFieldValue("startDate", value?.$d);
+        formik.setFieldValue("startDate", value?.$d)
       }}
       renderInput={(params) => (
         <TextField
@@ -79,7 +79,8 @@ function renderStartDatePicker(formik: ReturnType<typeof useFormik>) {
           error={Boolean(
             formik.errors.startDate && datePickersTouched.startDate
           )}
-          helperText={formik.errors.startDate}
+          helperText={<span>{formik.errors.startDate as string}</span>}
+          className={formik.errors.endDate ? "CreateEvent-errorMargin" : ""}
         />
       )}
     />
@@ -88,7 +89,7 @@ function renderStartDatePicker(formik: ReturnType<typeof useFormik>) {
       label="Start Date *"
       value={formik.values.startDate}
       onChange={(value) => {
-        formik.setFieldValue("startDate", value?.$d);
+        formik.setFieldValue("startDate", value?.$d)
       }}
       renderInput={(params) => (
         <TextField
@@ -97,11 +98,12 @@ function renderStartDatePicker(formik: ReturnType<typeof useFormik>) {
           error={Boolean(
             formik.errors.startDate && datePickersTouched.startDate
           )}
-          helperText={formik.errors.startDate}
+          helperText={<span>{formik.errors.startDate as string}</span>}
+          className={formik.errors.endDate ? "CreateEvent-errorMargin" : ""}
         />
       )}
     />
-  );
+  )
 }
 
 function renderEndDatePicker(formik: ReturnType<typeof useFormik>) {
@@ -110,14 +112,15 @@ function renderEndDatePicker(formik: ReturnType<typeof useFormik>) {
       label="End Date *"
       value={formik.values.endDate}
       onChange={(value) => {
-        formik.setFieldValue("endDate", value?.$d);
+        formik.setFieldValue("endDate", value?.$d)
       }}
       renderInput={(params) => (
         <TextField
           {...params}
           name="endDate"
           error={Boolean(formik.errors.endDate && datePickersTouched.endDate)}
-          helperText={formik.errors.endDate}
+          helperText={<span>{formik.errors.endDate as string}</span>}
+          className={formik.errors.startDate ? "CreateEvent-errorMargin" : ""}
         />
       )}
     />
@@ -126,41 +129,42 @@ function renderEndDatePicker(formik: ReturnType<typeof useFormik>) {
       label="End Date *"
       value={formik.values.endDate}
       onChange={(value) => {
-        formik.setFieldValue("endDate", value?.$d);
+        formik.setFieldValue("endDate", value?.$d)
       }}
       renderInput={(params) => (
         <TextField
           {...params}
           name="endDate"
           error={Boolean(formik.errors.endDate && datePickersTouched.endDate)}
-          helperText={formik.errors.endDate}
+          helperText={<span>{formik.errors.endDate as string}</span>}
+          className={formik.errors.startDate ? "CreateEvent-errorMargin" : ""}
         />
       )}
     />
-  );
+  )
 }
 
 export default function CreateEvent() {
-  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+  const { enqueueSnackbar, closeSnackbar } = useSnackbar()
 
   async function handleSubmit(
     values: FormValues,
     formik: FormikHelpers<FormValues>
   ): Promise<void> {
-    const user = useUserStore.getState().user as User;
+    const user = useUserStore.getState().user as User
     const { title, description, startDate, endDate, fullDay, locationName } =
-      values;
+      values
 
-    invariant(startDate, "startDate is null");
-    invariant(endDate, "endDate is null");
+    invariant(startDate, "startDate is null")
+    invariant(endDate, "endDate is null")
 
-    let location: Location | undefined;
+    let location: Location | undefined
 
     if (locationName) {
       location = await LocationsApi.create({
         name: locationName,
         authorId: user.id,
-      });
+      })
     }
 
     const eventResponse = await EventsApi.create({
@@ -171,12 +175,12 @@ export default function CreateEvent() {
       fullDay,
       locationId: location?.id,
       authorId: user.id,
-    });
+    })
 
     if (eventResponse?.status === 201) {
-      enqueueSnackbar(eventResponse.data.message, { variant: "success" });
+      enqueueSnackbar(eventResponse.data.message, { variant: "success" })
     } else {
-      enqueueSnackbar("unknown error", { variant: "error" });
+      enqueueSnackbar("unknown error", { variant: "error" })
     }
   }
 
@@ -192,19 +196,20 @@ export default function CreateEvent() {
     validationSchema: validationSchema,
     onSubmit: handleSubmit,
     onReset: () => datePickersTouched.reset(),
-  });
+  })
 
   return (
-    <form style={formStyle} onSubmit={formik.handleSubmit}>
+    <form className="CreateEvent" onSubmit={formik.handleSubmit}>
       <Typography variant="h4">
         <b>New Event</b>
       </Typography>
-      <div style={textFieldWithIconStyle}>
+      <div className="CreateEvent-textFieldWithIcon">
         <TitleIcon />
         <TextField
           name="title"
           label="Title *"
           variant="outlined"
+          size="small"
           fullWidth
           value={formik.values.title}
           onChange={formik.handleChange}
@@ -212,27 +217,29 @@ export default function CreateEvent() {
           helperText={formik.touched.title && formik.errors.title}
         />
       </div>
-      <div style={textFieldWithIconStyle}>
+      <div className="CreateEvent-textFieldWithIcon">
         <DescriptionIcon />
         <TextField
           name="description"
           label="Description"
           variant="outlined"
+          size="small"
           multiline
           fullWidth
           value={formik.values.description}
           onChange={formik.handleChange}
         />
       </div>
-      <div style={textFieldWithIconStyle}>
+      <div className="CreateEvent-textFieldWithIcon">
         <DateRangeIcon />
         {renderStartDatePicker(formik as any)}
         {renderEndDatePicker(formik as any)}
       </div>
-      <div style={checkboxContainerStyle}>
+      <div className="CreateEvent-checkboxContainer">
         <FormControlLabel
           control={
             <Checkbox
+              size="small"
               name="fullDay"
               value={formik.values.fullDay}
               onChange={formik.handleChange}
@@ -241,18 +248,19 @@ export default function CreateEvent() {
           label="Full Day"
         />
       </div>
-      <div style={textFieldWithIconStyle}>
+      <div className="CreateEvent-textFieldWithIcon">
         <LocationIcon />
         <TextField
           name="locationName"
           label="Location"
           variant="outlined"
+          size="small"
           fullWidth
           value={formik.values.locationName}
           onChange={formik.handleChange}
         />
       </div>
-      <div style={buttonContainerStyle}>
+      <div className="CreateEvent-buttonContainer">
         <Button
           type="submit"
           variant="contained"
@@ -263,34 +271,5 @@ export default function CreateEvent() {
         </Button>
       </div>
     </form>
-  );
+  )
 }
-
-const formStyle: CSSProperties = {
-  display: "flex",
-  justifyContent: "center",
-  alignItems: "center",
-  flexDirection: "column",
-  padding: "1rem",
-  gap: "1rem",
-};
-
-const textFieldWithIconStyle: CSSProperties = {
-  width: "100%",
-  display: "flex",
-  alignItems: "center",
-  gap: "1rem",
-};
-
-const checkboxContainerStyle: CSSProperties = {
-  display: "flex",
-  justifyItems: "center",
-  alignItems: "center",
-  marginLeft: "3.5rem",
-};
-
-const buttonContainerStyle: CSSProperties = {
-  display: "flex",
-  justifyItems: "center",
-  alignItems: "center",
-};

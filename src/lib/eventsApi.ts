@@ -1,7 +1,7 @@
-import axios, { AxiosResponse } from "axios";
-import ApiResponse from "../interfaces/apiResponse.interface";
-import Event from "../interfaces/event.interface";
-import { BACKEND_URL } from "./constants";
+import axios, { AxiosResponse } from "axios"
+import ApiResponse from "../interfaces/apiResponse.interface"
+import Event from "../interfaces/event.interface"
+import { BACKEND_URL } from "./constants"
 
 export default class EventsApi {
   static async create(
@@ -11,11 +11,11 @@ export default class EventsApi {
       const response = await axios.post<ApiResponse<Event>>(
         `${BACKEND_URL}/events`,
         event
-      );
+      )
 
-      return response;
+      return response
     } catch (e) {
-      console.log(e);
+      console.log(e)
     }
   }
 }
