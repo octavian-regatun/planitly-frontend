@@ -1,0 +1,11 @@
+.Sidebar {
+  width: $sidebar-width;
+  height: 100vh;
+  position: absolute;
+  top: 0;
+  border-radius: 0;
+
+  &-topPlaceholder {
+    height: calc($navbar-height + 1px);
+  }
+}

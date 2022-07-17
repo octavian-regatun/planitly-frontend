@@ -1,0 +1,22 @@
+// tailwind
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+// variables
+@import "./utilities/variables/breakpoints.scss";
+@import "./utilities/variables/colors.scss";
+@import "./utilities/variables/globals.scss";
+
+// pages
+
+@import "./pages/CalendarNextPage.scss";
+
+// components
+@import "./components/Calendar.scss";
+@import "./components/Layout.scss";
+@import "./components/Navbar.scss";
+@import "./components/NavbarProfile.scss";
+@import "./components/Sidebar.scss";
+@import "./components/CreateEvent.scss";
+@import "./components/CalendarSelect.scss";

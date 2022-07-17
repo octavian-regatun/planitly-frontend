@@ -1,0 +1,20 @@
+.CalendarSelect {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  gap: 50px;
+  margin-bottom: 8px;
+  position: relative;
+
+  &-button {
+    position: absolute;
+
+    &:nth-child(1) {
+      left: 0px;
+    }
+    &:nth-child(3) {
+      right: 0px;
+    }
+  }
+}

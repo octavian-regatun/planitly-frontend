@@ -1,5 +1,5 @@
-import { orange } from "@mui/material/colors";
-import { createTheme } from "@mui/material/styles";
+import { orange } from "@mui/material/colors"
+import { createTheme } from "@mui/material/styles"
 
 const theme = createTheme({
   palette: {
@@ -10,6 +10,6 @@ const theme = createTheme({
       main: orange[500],
     },
   },
-});
+})
 
-export default theme;
+export default theme

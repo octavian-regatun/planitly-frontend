@@ -13,4 +13,4 @@ enum Month {
   DECEMBER,
 }
 
-export default Month;
+export default Month
